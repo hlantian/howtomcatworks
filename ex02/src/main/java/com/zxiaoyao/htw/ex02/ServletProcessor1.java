@@ -10,7 +10,7 @@ import java.net.URLStreamHandler;
 
 public class ServletProcessor1 {
 
-    public void process(Request request, Respone respone) {
+    public void process(Request request, Response response) {
         String uri = request.getUri();
         String servletName = uri.substring(uri.lastIndexOf("/") + 1);
         URLClassLoader loader = null;
@@ -37,7 +37,7 @@ public class ServletProcessor1 {
         Servlet servlet = null;
         try {
             servlet = (Servlet) myClass.newInstance();
-            servlet.service(request,respone);
+            servlet.service(request, response);
         } catch (InstantiationException e) {
             System.out.println(toString());
         } catch (IllegalAccessException e) {

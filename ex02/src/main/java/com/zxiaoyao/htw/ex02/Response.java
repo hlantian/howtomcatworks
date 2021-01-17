@@ -10,7 +10,7 @@ import java.util.Locale;
  * @Author hlantian
  * @Date 2021/1/15 18:21
  */
-public class Respone implements ServletResponse {
+public class Response implements ServletResponse {
 
     private static final int BUFFER_SIZE = 1024;
 
@@ -20,7 +20,7 @@ public class Respone implements ServletResponse {
 
     private PrintWriter writer;
 
-    public Respone(OutputStream output) {
+    public Response(OutputStream output) {
         this.output = output;
     }
 
