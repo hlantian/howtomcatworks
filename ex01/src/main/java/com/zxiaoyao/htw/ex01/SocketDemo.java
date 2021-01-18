@@ -16,7 +16,7 @@ public class SocketDemo {
         boolean autoFlush = true;
         PrintWriter out = new PrintWriter(socket.getOutputStream(),autoFlush);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out.println("GET /index.html HTTP/1.1");
+        out.println("GET /servlet/PrimitiveServlet HTTP/1.1");
         out.println("Host: localhost:8080");
         out.println("Connection: Close");
 
