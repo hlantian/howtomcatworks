@@ -3,7 +3,9 @@ package com.zxiaoyao.htw.ex02;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,7 +57,7 @@ public class Request implements ServletRequest {
             i = -1;
         }
         for (int j = 0; j < i; j++) {
-            request.append((char)buffer[j]);
+            request.append((char) buffer[j]);
         }
         String requestStr = request.toString();
         logger.info(requestStr);
@@ -66,7 +68,7 @@ public class Request implements ServletRequest {
         return null;
     }
 
-    public Enumeration<String> getAttributeNames() {
+    public Enumeration getAttributeNames() {
         return null;
     }
 
@@ -82,10 +84,6 @@ public class Request implements ServletRequest {
         return 0;
     }
 
-    public long getContentLengthLong() {
-        return 0;
-    }
-
     public String getContentType() {
         return null;
     }
@@ -98,7 +96,7 @@ public class Request implements ServletRequest {
         return null;
     }
 
-    public Enumeration<String> getParameterNames() {
+    public Enumeration getParameterNames() {
         return null;
     }
 
@@ -106,7 +104,7 @@ public class Request implements ServletRequest {
         return new String[0];
     }
 
-    public Map<String, String[]> getParameterMap() {
+    public Map getParameterMap() {
         return null;
     }
 
@@ -150,7 +148,7 @@ public class Request implements ServletRequest {
         return null;
     }
 
-    public Enumeration<Locale> getLocales() {
+    public Enumeration getLocales() {
         return null;
     }
 
@@ -167,50 +165,6 @@ public class Request implements ServletRequest {
      * @deprecated
      */
     public String getRealPath(String s) {
-        return null;
-    }
-
-    public int getRemotePort() {
-        return 0;
-    }
-
-    public String getLocalName() {
-        return null;
-    }
-
-    public String getLocalAddr() {
-        return null;
-    }
-
-    public int getLocalPort() {
-        return 0;
-    }
-
-    public ServletContext getServletContext() {
-        return null;
-    }
-
-    public AsyncContext startAsync() throws IllegalStateException {
-        return null;
-    }
-
-    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
-        return null;
-    }
-
-    public boolean isAsyncStarted() {
-        return false;
-    }
-
-    public boolean isAsyncSupported() {
-        return false;
-    }
-
-    public AsyncContext getAsyncContext() {
-        return null;
-    }
-
-    public DispatcherType getDispatcherType() {
         return null;
     }
 }

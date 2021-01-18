@@ -1,6 +1,8 @@
 package com.zxiaoyao.htw.ex02;
 
-import javax.servlet.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -17,7 +19,7 @@ public class RequestFacade implements ServletRequest {
 
     private ServletRequest request;
 
-    public RequestFacade(Request request) {
+    public RequestFacade(ServletRequest request) {
         this.request = request;
     }
 
@@ -25,7 +27,7 @@ public class RequestFacade implements ServletRequest {
         return request.getAttribute(s);
     }
 
-    public Enumeration<String> getAttributeNames() {
+    public Enumeration getAttributeNames() {
         return request.getAttributeNames();
     }
 
@@ -41,10 +43,6 @@ public class RequestFacade implements ServletRequest {
         return request.getContentLength();
     }
 
-    public long getContentLengthLong() {
-        return request.getContentLengthLong();
-    }
-
     public String getContentType() {
         return request.getContentType();
     }
@@ -57,7 +55,7 @@ public class RequestFacade implements ServletRequest {
         return request.getParameter(s);
     }
 
-    public Enumeration<String> getParameterNames() {
+    public Enumeration getParameterNames() {
         return request.getParameterNames();
     }
 
@@ -65,7 +63,7 @@ public class RequestFacade implements ServletRequest {
         return request.getParameterValues(s);
     }
 
-    public Map<String, String[]> getParameterMap() {
+    public Map getParameterMap() {
         return request.getParameterMap();
     }
 
@@ -109,7 +107,7 @@ public class RequestFacade implements ServletRequest {
         return request.getLocale();
     }
 
-    public Enumeration<Locale> getLocales() {
+    public Enumeration getLocales() {
         return request.getLocales();
     }
 
@@ -122,54 +120,10 @@ public class RequestFacade implements ServletRequest {
     }
 
     /**
-     * @param s
+     * @param s s
      * @deprecated
      */
     public String getRealPath(String s) {
         return request.getRealPath(s);
-    }
-
-    public int getRemotePort() {
-        return request.getRemotePort();
-    }
-
-    public String getLocalName() {
-        return request.getLocalName();
-    }
-
-    public String getLocalAddr() {
-        return request.getLocalAddr();
-    }
-
-    public int getLocalPort() {
-        return request.getLocalPort();
-    }
-
-    public ServletContext getServletContext() {
-        return request.getServletContext();
-    }
-
-    public AsyncContext startAsync() throws IllegalStateException {
-        return request.startAsync();
-    }
-
-    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
-        return request.startAsync(servletRequest,servletResponse);
-    }
-
-    public boolean isAsyncStarted() {
-        return request.isAsyncStarted();
-    }
-
-    public boolean isAsyncSupported() {
-        return request.isAsyncSupported();
-    }
-
-    public AsyncContext getAsyncContext() {
-        return request.getAsyncContext();
-    }
-
-    public DispatcherType getDispatcherType() {
-        return request.getDispatcherType();
     }
 }

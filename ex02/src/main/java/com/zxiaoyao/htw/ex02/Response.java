@@ -28,9 +28,6 @@ public class Response implements ServletResponse {
         this.request = request;
     }
 
-
-
-
     public void sendStaticResource() throws IOException {
         byte[] bytes = new byte[BUFFER_SIZE];
         FileInputStream fis = null;
@@ -61,28 +58,16 @@ public class Response implements ServletResponse {
         return null;
     }
 
-    public String getContentType() {
-        return null;
-    }
-
     public ServletOutputStream getOutputStream() throws IOException {
         return null;
     }
 
     public PrintWriter getWriter() throws IOException {
-        this.writer = new PrintWriter(output,true);
-        return this.writer;
-    }
-
-    public void setCharacterEncoding(String s) {
-
+        writer = new PrintWriter(output, true);
+        return writer;
     }
 
     public void setContentLength(int i) {
-
-    }
-
-    public void setContentLengthLong(long l) {
 
     }
 

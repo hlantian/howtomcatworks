@@ -23,10 +23,6 @@ public class ResponseFacade implements ServletResponse {
         return response.getCharacterEncoding();
     }
 
-    public String getContentType() {
-        return response.getContentType();
-    }
-
     public ServletOutputStream getOutputStream() throws IOException {
         return response.getOutputStream();
     }
@@ -35,16 +31,8 @@ public class ResponseFacade implements ServletResponse {
         return response.getWriter();
     }
 
-    public void setCharacterEncoding(String s) {
-        response.setCharacterEncoding(s);
-    }
-
     public void setContentLength(int i) {
         response.setContentLength(i);
-    }
-
-    public void setContentLengthLong(long l) {
-        response.setContentLengthLong(l);
     }
 
     public void setContentType(String s) {
@@ -64,22 +52,22 @@ public class ResponseFacade implements ServletResponse {
     }
 
     public void resetBuffer() {
-        response.resetBuffer();
+
     }
 
     public boolean isCommitted() {
-        return response.isCommitted();
+        return false;
     }
 
     public void reset() {
-        response.reset();
+
     }
 
     public void setLocale(Locale locale) {
-        response.setLocale(locale);
+
     }
 
     public Locale getLocale() {
-        return response.getLocale();
+        return null;
     }
 }
