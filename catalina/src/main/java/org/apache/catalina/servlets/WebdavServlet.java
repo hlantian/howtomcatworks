@@ -571,10 +571,10 @@ public class WebdavServlet
                 if ((object instanceof DirContext) && (depth > 0)) {
 
                     try {
-                        NamingEnumeration enum = resources.list(currentPath);
-                        while (enum.hasMoreElements()) {
+                        NamingEnumeration enumeration = resources.list(currentPath);
+                        while (enumeration.hasMoreElements()) {
                             NameClassPair ncPair =
-                                (NameClassPair) enum.nextElement();
+                                (NameClassPair) enumeration.nextElement();
                             String newPath = currentPath;
                             if (!(newPath.endsWith("/")))
                                 newPath += "/";
@@ -742,8 +742,8 @@ public class WebdavServlet
     /**
      * Process a POST request for the specified resource.
      *
-     * @param request The servlet request we are processing
-     * @param response The servlet response we are creating
+     * @param req The servlet request we are processing
+     * @param resp The servlet response we are creating
      *
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet-specified error occurs
@@ -1667,9 +1667,9 @@ public class WebdavServlet
             }
 
             try {
-                NamingEnumeration enum = resources.list(source);
-                while (enum.hasMoreElements()) {
-                    NameClassPair ncPair = (NameClassPair) enum.nextElement();
+                NamingEnumeration enumeration = resources.list(source);
+                while (enumeration.hasMoreElements()) {
+                    NameClassPair ncPair = (NameClassPair) enumeration.nextElement();
                     String childDest = dest;
                     if (!childDest.equals("/"))
                         childDest += "/";
@@ -1844,17 +1844,17 @@ public class WebdavServlet
         if (lockTokenHeader == null)
             lockTokenHeader = "";
 
-        Enumeration enum = null;
+        Enumeration enumeration = null;
         try {
-            enum = resources.list(path);
+            enumeration = resources.list(path);
         } catch (NamingException e) {
             errorList.put(path, new Integer
                 (WebdavStatus.SC_INTERNAL_SERVER_ERROR));
             return;
         }
 
-        while (enum.hasMoreElements()) {
-            NameClassPair ncPair = (NameClassPair) enum.nextElement();
+        while (enumeration.hasMoreElements()) {
+            NameClassPair ncPair = (NameClassPair) enumeration.nextElement();
             String childName = path;
             if (!childName.equals("/"))
                 childName += "/";
@@ -2240,7 +2240,7 @@ public class WebdavServlet
     /**
      * Propfind helper method. Dispays the properties of a lock-null resource.
      *
-     * @param resources Resources object associated with this context
+     * @param req Resources object associated with this context
      * @param generatedXML XML response to the Propfind request
      * @param path Path of the current resource
      * @param type Propfind type
@@ -2577,7 +2577,6 @@ public class WebdavServlet
         /**
          * Constructor.
          *
-         * @param pathname Path name of the file
          */
         public LockInfo() {
 
