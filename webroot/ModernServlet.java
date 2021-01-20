@@ -12,7 +12,7 @@ public class ModernServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, 
     HttpServletResponse response) 
     throws ServletException, IOException {
-    
+    System.out.println("do get");
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
     out.println("<html>");

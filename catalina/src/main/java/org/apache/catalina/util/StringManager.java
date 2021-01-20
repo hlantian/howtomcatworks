@@ -59,6 +59,7 @@ package org.apache.catalina.util;
 
 import java.text.MessageFormat;
 import java.util.Hashtable;
+import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -103,6 +104,7 @@ public class StringManager {
      */
 
     private StringManager(String packageName) {
+//        packageName = "D:\\workspace\\howtomcatworks\\ex03\\src\\main\\java\\com\\zxiaoyao\\htw\\ex03\\connector\\http\\";
         String bundleName = packageName + ".LocalStrings";
         bundle = ResourceBundle.getBundle(bundleName);
     }

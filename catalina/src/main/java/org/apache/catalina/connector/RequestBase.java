@@ -1,30 +1,18 @@
 package org.apache.catalina.connector;
 
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
+import org.apache.catalina.*;
+import org.apache.catalina.util.Enumerator;
+import org.apache.catalina.util.RequestUtil;
+import org.apache.catalina.util.StringManager;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
-import org.apache.catalina.Connector;
-import org.apache.catalina.Context;
-import org.apache.catalina.Request;
-import org.apache.catalina.Response;
-import org.apache.catalina.Wrapper;
-import org.apache.catalina.util.Enumerator;
-import org.apache.catalina.util.RequestUtil;
-import org.apache.catalina.util.StringManager;
+import java.io.*;
+import java.net.Socket;
+import java.util.*;
 
 
 /**
