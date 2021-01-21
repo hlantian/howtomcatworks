@@ -935,12 +935,13 @@ final class HttpProcessor
                 ok = false;
                 finishResponse = false;
             } catch (ServletException e) {
+                log("ServletException.f ", e);
                 ok = false;
                 try {
                     ((HttpServletResponse) response.getResponse())
                         .sendError(HttpServletResponse.SC_BAD_REQUEST);
                 } catch (Exception f) {
-                    ;
+                    log("process.f ", f);
                 }
             } catch (InterruptedIOException e) {
                 if (debug > 1) {
@@ -959,7 +960,7 @@ final class HttpProcessor
                     ((HttpServletResponse) response.getResponse()).sendError
                         (HttpServletResponse.SC_BAD_REQUEST);
                 } catch (Exception f) {
-                    ;
+                    log("f.f ", f);
                 }
                 ok = false;
             }
@@ -969,6 +970,7 @@ final class HttpProcessor
                 ((HttpServletResponse) response).setHeader
                     ("Date", FastHttpDateFormat.getCurrentDate());
                 if (ok) {
+                    System.out.println("invoke content");
                     connector.getContainer().invoke(request, response);
                 }
             } catch (ServletException e) {
@@ -977,7 +979,7 @@ final class HttpProcessor
                     ((HttpServletResponse) response.getResponse()).sendError
                         (HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 } catch (Exception f) {
-                    ;
+                    log("Exception.f ", f);
                 }
                 ok = false;
             } catch (InterruptedIOException e) {
@@ -988,7 +990,7 @@ final class HttpProcessor
                     ((HttpServletResponse) response.getResponse()).sendError
                         (HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 } catch (Exception f) {
-                    ;
+                    log("ExceptionException.f ", f);
                 }
                 ok = false;
             }
