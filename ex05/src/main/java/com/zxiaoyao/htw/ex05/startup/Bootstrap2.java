@@ -40,8 +40,8 @@ public class Bootstrap2 {
         context.addMapper(mapper);
         Loader loader = new SimpleLoader();
         context.setLoader(loader);
-        context.addServletMapping("/Primitive","Primitive");
-        context.addServletMapping("/Modern","Modern");
+        context.addServletMapping("PrimitiveServlet","Primitive");
+        context.addServletMapping("ModernServlet","Modern");
 
         connector.setContainer(context);
 

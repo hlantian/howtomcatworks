@@ -46,6 +46,7 @@ public class ModernServlet extends HttpServlet {
 
     out.println("</body>");
     out.println("</html>");
+    System.out.println("mode end");
 
   }
 }

@@ -657,7 +657,7 @@ public class SimpleContext implements Context, Pipeline {
 
     @Override
     public void setLoader(Loader loader) {
-
+        this.loader = loader;
     }
 
     @Override

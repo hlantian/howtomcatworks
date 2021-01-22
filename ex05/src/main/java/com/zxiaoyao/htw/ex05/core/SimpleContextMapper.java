@@ -42,9 +42,10 @@ public class SimpleContextMapper implements Mapper {
         String requestURI = ((HttpRequest)request).getDecodedRequestURI();
         String relativeURI = requestURI.substring(contextPath.length());
         Wrapper wrapper = null;
-        String servletPath = relativeURI;
+        int lastIndex = relativeURI.lastIndexOf("/");
+        String servletPath = relativeURI.substring(lastIndex+1);
         String pathINfo = null;
-        String name = this.context.findServletMapping(relativeURI);
+        String name = this.context.findServletMapping(servletPath);
         if(name != null){
             wrapper = (Wrapper)this.context.findChild(name);
         }
