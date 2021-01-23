@@ -3,14 +3,29 @@ package com.zxiaoyao.htw.ex07.core;
 import org.apache.catalina.*;
 import org.apache.catalina.deploy.*;
 import org.apache.catalina.util.CharsetMapper;
+import org.apache.catalina.util.LifecycleSupport;
+import org.apache.naming.resources.jndi.Handler;
 
 import javax.naming.directory.DirContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class SimpleContext implements Context, Pipeline, Lifecycle {
+
+    protected HashMap children = new HashMap();
+    private Loader loader;
+    private Logger logger;
+    protected LifecycleSupport lifecycle = new LifecycleSupport(this);
+    private SimplePipeline pipeline = new SimplePipeline(this);
+    private HashMap servletMappings = new HashMap();
+    protected Mapper mapper = null;
+    protected HashMap mappers = new HashMap();
+    private Container parent;
+    protected boolean started = false;
+
     @Override
     public Object[] getApplicationListeners() {
         return new Object[0];
@@ -283,7 +298,9 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     @Override
     public void addServletMapping(String pattern, String name) {
-
+        synchronized (servletMappings) {
+            servletMappings.put(pattern, name);
+        }
     }
 
     @Override
@@ -458,7 +475,9 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     @Override
     public String findServletMapping(String pattern) {
-        return null;
+        synchronized (servletMappings) {
+            return (String) servletMappings.get(pattern);
+        }
     }
 
     @Override
@@ -628,22 +647,22 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     @Override
     public Loader getLoader() {
-        return null;
+        return loader != null ? loader : parent != null ? parent.getLoader() : null;
     }
 
     @Override
     public void setLoader(Loader loader) {
-
+        this.loader = loader;
     }
 
     @Override
     public Logger getLogger() {
-        return null;
+        return this.logger;
     }
 
     @Override
     public void setLogger(Logger logger) {
-
+        this.logger = logger;
     }
 
     @Override
@@ -718,7 +737,8 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     @Override
     public void addChild(Container child) {
-
+        child.setParent(this);
+        children.put(child.getName(), child);
     }
 
     @Override
@@ -728,7 +748,21 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     @Override
     public void addMapper(Mapper mapper) {
-
+        mapper.setContainer(this);
+        this.mapper = mapper;
+        String protocol = mapper.getProtocol();
+        synchronized (mappers) {
+            if (mappers.get(protocol) != null) {
+                throw new IllegalArgumentException("addMapper: Protocol '" + protocol + "' is not unique");
+            }
+            mapper.setContainer(this);
+            mappers.put(protocol, mapper);
+            if (mappers.size() == 1) {
+                this.mapper = mapper;
+            } else {
+                this.mapper = null;
+            }
+        }
     }
 
     @Override
@@ -738,12 +772,20 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     @Override
     public Container findChild(String name) {
-        return null;
+        if (name == null) {
+            return null;
+        }
+        synchronized (children) {
+            return (Container) children.get(name);
+        }
     }
 
     @Override
     public Container[] findChildren() {
-        return new Container[0];
+        synchronized (children) {
+            Container[] results = new Container[children.size()];
+            return (Container[]) children.values().toArray(results);
+        }
     }
 
     @Override
@@ -753,7 +795,12 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     @Override
     public Mapper findMapper(String protocol) {
-        return null;
+        if (mapper != null) {
+            return mapper;
+        }
+        synchronized (mappers) {
+            return (Mapper) mappers.get(protocol);
+        }
     }
 
     @Override
@@ -763,37 +810,38 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     @Override
     public Valve getBasic() {
-        return null;
+        return pipeline.getBasic();
     }
 
     @Override
     public void setBasic(Valve valve) {
-
+        this.pipeline.setBasic(valve);
     }
 
     @Override
     public void addValve(Valve valve) {
-
+        this.pipeline.addValve(valve);
     }
 
     @Override
     public Valve[] getValves() {
-        return new Valve[0];
+        return this.pipeline.getValves();
     }
 
     @Override
     public void invoke(Request request, Response response) throws IOException, ServletException {
-
+        pipeline.invoke(request, response);
     }
 
     @Override
     public void removeValve(Valve valve) {
-
+        pipeline.removeValve(valve);
     }
 
     @Override
     public Container map(Request request, boolean update) {
-        return null;
+        Mapper mapper = findMapper(request.getRequest().getProtocol());
+        return mapper == null ? null : mapper.map(request, update);
     }
 
     @Override
@@ -818,7 +866,7 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     @Override
     public void addLifecycleListener(LifecycleListener listener) {
-
+        lifecycle.addLifecycleListener(listener);
     }
 
     @Override
@@ -828,7 +876,7 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     @Override
     public void removeLifecycleListener(LifecycleListener listener) {
-
+        lifecycle.removeLifecycleListener(listener);
     }
 
     @Override
