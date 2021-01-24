@@ -26,6 +26,10 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
     private Container parent;
     protected boolean started = false;
 
+    public SimpleContext() {
+        pipeline.setBasic(new SimpleContextValve());
+    }
+
     @Override
     public Object[] getApplicationListeners() {
         return new Object[0];
@@ -881,11 +885,77 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     @Override
     public void start() throws LifecycleException {
+        log("starting Context");
+        if(started){
+            throw new LifecycleException("SimpleContext has already started");
+        }
+        lifecycle.fireLifecycleEvent(BEFORE_START_EVENT,null);
+        started = true;
+        try{
+            if(loader != null && loader instanceof Lifecycle){
+                ((Lifecycle) loader).start();
+            }
 
+            Container[] children = findChildren();
+            for (int i = 0; i<children.length; i++){
+                Container child = children[i];
+                if(child instanceof Lifecycle){
+                    ((Lifecycle) child).start();
+                }
+            }
+
+            if(pipeline instanceof Lifecycle){
+                ((Lifecycle)pipeline).start();
+            }
+
+            lifecycle.fireLifecycleEvent(START_EVENT,null);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        lifecycle.fireLifecycleEvent(AFTER_START_EVENT,null);
+        log("Context started");
     }
 
     @Override
     public void stop() throws LifecycleException {
+        log("Stopping context");
+        if(!started){
+            throw new LifecycleException("SimpleContext has not been started");
+        }
+        lifecycle.fireLifecycleEvent(BEFORE_STOP_EVENT,null);
+        lifecycle.fireLifecycleEvent(STOP_EVENT,null);
+        try{
+            if(pipeline instanceof Lifecycle){
+                ((Lifecycle)pipeline).stop();
+            }
 
+            Container[] children = findChildren();
+            for (int i = 0; i<children.length; i++){
+                Container child = children[i];
+                if(child instanceof Lifecycle){
+                    ((Lifecycle) child).stop();
+                }
+            }
+
+            if(loader != null && loader instanceof Lifecycle){
+                ((Lifecycle) loader).stop();
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        lifecycle.fireLifecycleEvent(AFTER_STOP_EVENT,null);
+        log("Context stopped");
+    }
+
+    private void log(String message){
+        Logger logger = this.getLogger();
+        if(logger != null){
+            logger.log(message
+            );
+        }
     }
 }

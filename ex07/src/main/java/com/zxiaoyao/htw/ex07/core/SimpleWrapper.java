@@ -21,6 +21,10 @@ public class SimpleWrapper implements Wrapper, Pipeline, Lifecycle {
     protected Container parent = null;
     protected boolean started = false;
 
+    public SimpleWrapper() {
+        pipeline.setBasic(new SimpleWrapperValve());
+    }
+
     @Override
     public void addLifecycleListener(LifecycleListener listener) {
 

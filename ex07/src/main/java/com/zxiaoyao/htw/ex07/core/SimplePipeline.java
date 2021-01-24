@@ -78,7 +78,7 @@ public class SimplePipeline implements Pipeline, Lifecycle {
 
     @Override
     public void invoke(Request request, Response response) throws IOException, ServletException {
-
+        (new StandardPipelineValueContext()).invokeNext(request,response);
     }
 
     @Override
