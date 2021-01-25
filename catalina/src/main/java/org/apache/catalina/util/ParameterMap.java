@@ -80,7 +80,7 @@ import java.util.Map;
  * @version $Revision: 1.2 $ $Date: 2001/07/22 20:25:13 $
  */
 
-public final class ParameterMap extends HashMap {
+public  class ParameterMap extends HashMap {
 
 
     // ----------------------------------------------------------- Constructors

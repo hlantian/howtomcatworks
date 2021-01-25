@@ -25,7 +25,7 @@ public class Bootstrap {
         context.setPath("/myApp");
         context.setDocBase("myApp");
         context.addChild(wrapper1);
-        context.addServletMapping("/Session","Session");
+        context.addServletMapping("/myApp/Session","Session");
 
         LifecycleListener listener = new SimpleContextConfig();
         ((StandardContext) context).addLifecycleListener(listener);
