@@ -10,7 +10,7 @@ public class PrimitiveServlet implements Servlet {
 
   public void service(ServletRequest request, ServletResponse response)
     throws ServletException, IOException {
-    System.out.println("from service");
+    System.out.println("from service 1111111111111111111");
     PrintWriter out = response.getWriter();
     out.println("Hello. Roses are red.");
     out.print("Violets are blue.");
