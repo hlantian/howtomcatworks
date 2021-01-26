@@ -2,7 +2,7 @@ package com.zxiaoyao.htw.ex10.startup;
 
 import com.zxiaoyao.htw.ex10.core.SimpleContextConfig;
 import com.zxiaoyao.htw.ex10.core.SimpleWrapper;
-import com.zxiaoyao.htw.ex10.realm.SimpleRealm;
+import com.zxiaoyao.htw.ex10.realm.SimpleUserDatabaseRealm;
 import org.apache.catalina.*;
 import org.apache.catalina.connector.http.HttpConnector;
 import org.apache.catalina.core.StandardContext;
@@ -14,9 +14,9 @@ import org.apache.catalina.loader.WebappLoader;
 /**
  * @Description
  * @Author hlantian
- * @Date 2021/1/25 17:38
+ * @Date 2021/1/26 14:55
  */
-public class Bootstrap1 {
+public class Bootstrap2 {
     public static void main(String[] args) {
         System.setProperty("catalina.base",System.getProperty("user.dir"));
         Connector connector = new HttpConnector();
@@ -43,16 +43,17 @@ public class Bootstrap1 {
         context.addServletMapping("/Modern","Modern");
 
         SecurityCollection securityCollection = new SecurityCollection();
-        securityCollection.addPattern("/");
         securityCollection.addMethod("GET");
+        securityCollection.addPattern("/");
 
         SecurityConstraint constraint = new SecurityConstraint();
         constraint.addCollection(securityCollection);
         constraint.addAuthRole("manager");
         LoginConfig loginConfig = new LoginConfig();
-        loginConfig.setRealmName("Simple Realm");
+        loginConfig.setRealmName("Simple User Database Realm");
 
-        Realm realm = new SimpleRealm();
+        Realm realm = new SimpleUserDatabaseRealm();
+        ((SimpleUserDatabaseRealm) realm).createDatabase("conf/tomcat-users.xml");
         context.setRealm(realm);
         context.addConstraint(constraint);
         context.setLoginConfig(loginConfig);
@@ -60,12 +61,12 @@ public class Bootstrap1 {
         connector.setContainer(context);
 
         try{
-           connector.initialize();
+            connector.initialize();
             ((Lifecycle)connector).start();
             ((Lifecycle)context).start();
 
             System.in.read();
-            ((Lifecycle)context).stop();
+            ((StandardContext) context).stop();
         }catch (Exception e){
             e.printStackTrace();
         }
