@@ -28,25 +28,25 @@ public class MySwingApp extends JFrame {
         });
         this.getContentPane().setLayout(null);
         jTextArea.setText("点击按钮退出");
-        jTextArea.setBounds(new Rectangle(9,7,371,235));
-        this.getContentPane().add(exitButton,null);
-        this.getContentPane().add(jTextArea,null);
+        jTextArea.setBounds(new Rectangle(9, 7, 371, 235));
+        this.getContentPane().add(exitButton, null);
+        this.getContentPane().add(jTextArea, null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setBounds(0,0,400,330);
+        this.setBounds(0, 0, 400, 330);
         this.setVisible(true);
         initliaze();
 
     }
 
-    private void initliaze(){
-      File file = new File(dir,filename);
-      try {
-          System.out.println("Creating temporary file.");
-          file.createNewFile();
-      }catch (Exception e){
-          e.printStackTrace();
-          System.out.println("Failed creating temporary file");
-      }
+    private void initliaze() {
+        File file = new File(dir, filename);
+        try {
+            System.out.println("Creating temporary file.");
+            file.createNewFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Failed creating temporary file");
+        }
     }
 
     void exitButton_actionPerformed(ActionEvent e) {
@@ -63,6 +63,6 @@ public class MySwingApp extends JFrame {
     }
 
     public static void main(String[] args) {
-        MySwingApp app = new MySwingApp();
+        new MySwingApp();
     }
 }
